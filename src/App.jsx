@@ -1,37 +1,31 @@
-import { faker } from "@faker-js/faker";
 import { Charts } from "./components/chart/Charts";
+import { TableData } from "./components/table/TableData";
 
 const App = () => {
-  const users = Array.from({ length: 12 }).map(() => ({
-    id: faker.string.uuid(),
-    name: faker.person.fullName(),
-    email: faker.internet.email(),
-    country: faker.location.country(),
-    gender: faker.person.sexType(),
-  }));
-
   return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
-        👤 User Directory
-      </h1>
+    <div className="w-full min-h-screen bg-gradient-to-br from-gray-100 via-white to-gray-200  flex items-center justify-center py-3">
+      <div className="w-full sm:w-[90%] max-w-7xl bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-200">
+        {/* Header */}
+        <div className="w-full px-6 py-4 text-2xl font-semibold border-l-4 border-indigo-500 bg-gradient-to-r from-indigo-50 to-transparent">
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+            Analytics Dashboard & Interactive Visuals
+          </span>
+          <header className="flex justify-end">abc</header>
+        </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {users.map((user) => (
-          <div
-            key={user.id}
-            className="bg-white rounded-2xl shadow-md p-6 hover:shadow-xl transition"
-          >
-            <h2 className="text-xl font-semibold text-gray-900 mb-2">
-              {user.name}
-            </h2>
-            <p className="text-gray-600 text-sm mb-1">📧 {user.email}</p>
-            <p className="text-gray-600 text-sm mb-1">🌍 {user.country}</p>
-            <p className="text-gray-600 text-sm mb-1">⚧ {user.gender}</p>
-          </div>
-        ))}
+        {/* Charts Section */}
+        <div className="p-6">
+          <Charts />
+        </div>
+
+        {/* Table Section */}
+        <div className="w-full py-4 text-2xl font-semibold border-l-4 text-center  border-indigo-500 bg-gradient-to-r from-indigo-50 to-transparent">
+          <span className="bg-clip-text text-transparent align-center bg-gradient-to-r from-indigo-600 to-purple-600">
+            👤 Users Data
+          </span>
+        </div>
+        <TableData />
       </div>
-      <Charts />
     </div>
   );
 };

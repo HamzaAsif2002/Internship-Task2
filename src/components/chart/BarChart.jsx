@@ -1,12 +1,11 @@
 import {
-  ResponsiveContainer,
   BarChart,
   Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  Legend,
+  Cell,
 } from "recharts";
 
 export const Barchart = ({ rows }) => {
@@ -24,23 +23,47 @@ export const Barchart = ({ rows }) => {
 
   const topCountries = countryArr.sort((a, b) => b.count - a.count).slice(0, 8);
   return (
-    <div className="w-full md:w-[60%] h-100 bg-white p-3 rounded shadow">
-      <h3 className="mb-2 font-medium">Top Countries — total PV & UV</h3>
-      <ResponsiveContainer width="100%" height="90%">
-        <BarChart
-          data={topCountries}
-          margin={{ top: 5, right: 20, left: 20, bottom: 40 }} // extra bottom space for labels
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          {/* X-axis shows country names */}
-          <XAxis dataKey="country" angle={-30} textAnchor="end" interval={0} />
-          {/* Y-axis shows numbers */}
-          <YAxis domain={[0, 5]} ticks={[0, 1, 2, 3, 4, 5]} />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="count" name="Users" fill="#8884d8" />
-        </BarChart>
-      </ResponsiveContainer>
+    <div className="w-full h-100 flex flex-wrap bg-white p-3 rounded shadow">
+      <h1 className="mb-5 text-xl font-bold text-left bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+        Country-wise Analytics
+      </h1>
+      {/* Scrollable container */}
+      <div className="overflow-x-auto w-full">
+        {/* Chart wrapper with fixed width */}
+        <div className="w-full h-[300px]">
+          <BarChart
+            width={600} // match min-w above
+            height={300} // control height here
+            data={topCountries}
+            margin={{ top: 5, right: 20, left: 5, bottom: 40 }}
+          >
+            <CartesianGrid
+              stroke="#e5e7eb"
+              vertical={false}
+              strokeDasharray="0"
+            />{" "}
+            <XAxis
+              dataKey="country"
+              angle={-30}
+              textAnchor="end"
+              interval={0}
+            />
+            <YAxis
+              domain={[0, (dataMax) => dataMax + 2]}
+              allowDecimals={false}
+            />
+            <Tooltip />
+            <Bar dataKey="count">
+              {topCountries.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={["#8884d8", "#82ca9d"][index % 2]}
+                />
+              ))}
+            </Bar>
+          </BarChart>
+        </div>
+      </div>
     </div>
   );
 };

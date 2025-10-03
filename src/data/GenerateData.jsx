@@ -3,14 +3,20 @@ import { faker } from "@faker-js/faker";
 // Cache variable (so data is generated only once)
 let cachedData = null;
 
-export const GenerateData = () => {
+export const GenerateData = (count = 100) => {
   if (!cachedData) {
-    cachedData = Array.from({ length: 100 }).map(() => ({
+    const activityLevels = ["Low", "Medium", "High"];
+    const preferences = ["Sports", "Music", "Tech", "Travel", "Food", "Movies"];
+
+    cachedData = Array.from({ length: count }).map(() => ({
       id: faker.string.uuid(),
       name: faker.person.fullName(),
-      email: faker.internet.email(),
+      age: faker.number.int({ min: 18, max: 70 }),
+      gender: faker.helpers.arrayElement(["Male", "Female", "Other"]),
       country: faker.location.country(),
-      gender: faker.person.sexType(),
+      activityLevel: faker.helpers.arrayElement(activityLevels),
+      preference: faker.helpers.arrayElement(preferences),
+      lastActiveDays: faker.number.int({ min: 0, max: 60 }),
     }));
   }
   return cachedData;

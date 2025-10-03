@@ -6,6 +6,7 @@ import {
   CartesianGrid,
   Tooltip,
   Cell,
+  ResponsiveContainer,
 } from "recharts";
 
 export const Barchart = ({ rows }) => {
@@ -23,47 +24,32 @@ export const Barchart = ({ rows }) => {
 
   const topCountries = countryArr.sort((a, b) => b.count - a.count).slice(0, 8);
   return (
-    <div className="w-full h-100 flex flex-wrap bg-white p-3 rounded shadow">
-      <h1 className="mb-5 text-xl font-bold text-left bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-        Country-wise Analytics
-      </h1>
-      {/* Scrollable container */}
-      <div className="overflow-x-auto w-full">
-        {/* Chart wrapper with fixed width */}
-        <div className="w-full h-[300px]">
-          <BarChart
-            width={600} // match min-w above
-            height={300} // control height here
-            data={topCountries}
-            margin={{ top: 5, right: 20, left: 5, bottom: 40 }}
-          >
-            <CartesianGrid
-              stroke="#e5e7eb"
-              vertical={false}
-              strokeDasharray="0"
-            />{" "}
-            <XAxis
-              dataKey="country"
-              angle={-30}
-              textAnchor="end"
-              interval={0}
+    <ResponsiveContainer width="100%" height="100%">
+      <BarChart
+        data={topCountries}
+        margin={{ top: 20, right: 5, left: 5, bottom: 20 }}
+      >
+        <CartesianGrid stroke="#e5e7eb" vertical={false} strokeDasharray="0" />{" "}
+        <XAxis
+          dataKey="country"
+          angle={-30}
+          textAnchor="end"
+          tick={{ fontSize: 10 }}
+          tickFormatter={(name) =>
+            name.length > 15 ? name.slice(0, 15) + "..." : name
+          }
+        />
+        <YAxis domain={[0, (dataMax) => dataMax + 2]} allowDecimals={false} />
+        <Tooltip />
+        <Bar dataKey="count">
+          {topCountries.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={["#8884d8", "#82ca9d"][index % 2]}
             />
-            <YAxis
-              domain={[0, (dataMax) => dataMax + 2]}
-              allowDecimals={false}
-            />
-            <Tooltip />
-            <Bar dataKey="count">
-              {topCountries.map((entry, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={["#8884d8", "#82ca9d"][index % 2]}
-                />
-              ))}
-            </Bar>
-          </BarChart>
-        </div>
-      </div>
-    </div>
+          ))}
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
   );
 };

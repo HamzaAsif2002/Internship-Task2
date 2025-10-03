@@ -52,64 +52,58 @@ export const Stackedchart = ({ rows = [] }) => {
   }
 
   return (
-    <div className="w-full h-100 bg-white p-3 rounded shadow overflow-x-auto">
-      <h1 className="mb-5 text-xl font-bold text-left bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
-        Country-wise Analytics (stacked by gender)
-      </h1>
+    <ResponsiveContainer width="100%" height="100%">
+      <AreaChart
+        data={topCountries}
+        margin={{ top: 20, right: 5, left: 5, bottom: 20 }}
+      >
+        <CartesianGrid stroke="#e5e7eb" vertical={false} strokeDasharray="0" />
+        <XAxis
+          dataKey="country"
+          angle={-30}
+          textAnchor="end"
+          tick={{ fontSize: 10 }}
+          tickFormatter={(name) =>
+            name.length > 10 ? name.slice(0, 15) + "..." : name
+          }
+        />
+        <YAxis domain={[0, yMax]} allowDecimals={false} />
+        <Tooltip
+          formatter={(value, name) => [value, name]}
+          // show combined total in tooltip payload if desired
+        />
+        <Legend verticalAlign="top" height={36} />
 
-      {/* explicit wrapper height so chart can render */}
-      <div className="w-full h-[300px] min-w-[600px]">
-        {/* you can keep explicit width/height for horizontal scroll, or swap to ResponsiveContainer */}
-        <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            data={topCountries}
-            margin={{ top: 5, right: 20, left: 5, bottom: 40 }}
-          >
-            <CartesianGrid
-              stroke="#e5e7eb"
-              vertical={false}
-              strokeDasharray="0"
-            />
-            <XAxis dataKey="country" angle={-30} textAnchor="end" height={60} />
-            <YAxis domain={[0, yMax]} allowDecimals={false} />
-            <Tooltip
-              formatter={(value, name) => [value, name]}
-              // show combined total in tooltip payload if desired
-            />
-            <Legend verticalAlign="top" height={36} />
-
-            {/* stacked areas: same stackId -> stack on top of each other */}
-            <Area
-              type="monotone"
-              dataKey="male"
-              stackId="1"
-              stroke="#1f2937" // dark stroke (male)
-              fill="#60a5fa" // fill color
-              strokeWidth={2}
-              dot={false}
-            />
-            <Area
-              type="monotone"
-              dataKey="female"
-              stackId="1"
-              stroke="#7c3aed"
-              fill="#c084fc"
-              strokeWidth={2}
-              dot={false}
-            />
-            {/* optional: show other genders if present */}
-            <Area
-              type="monotone"
-              dataKey="other"
-              stackId="1"
-              stroke="#6ee7b7"
-              fill="#34d399"
-              strokeWidth={2}
-              dot={false}
-            />
-          </AreaChart>
-        </ResponsiveContainer>
-      </div>
-    </div>
+        {/* stacked areas: same stackId -> stack on top of each other */}
+        <Area
+          type="monotone"
+          dataKey="male"
+          stackId="1"
+          stroke="#1f2937" // dark stroke (male)
+          fill="#60a5fa" // fill color
+          strokeWidth={2}
+          dot={false}
+        />
+        <Area
+          type="monotone"
+          dataKey="female"
+          stackId="1"
+          stroke="#7c3aed"
+          fill="#c084fc"
+          strokeWidth={2}
+          dot={false}
+        />
+        {/* optional: show other genders if present */}
+        <Area
+          type="monotone"
+          dataKey="other"
+          stackId="1"
+          stroke="#6ee7b7"
+          fill="#34d399"
+          strokeWidth={2}
+          dot={false}
+        />
+      </AreaChart>
+    </ResponsiveContainer>
   );
 };

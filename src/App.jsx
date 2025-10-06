@@ -184,7 +184,7 @@ const App = () => {
         <main className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Sidebar (collapsible) */}
           {sidebarOpen && (
-            <aside className="lg:col-span-2 col-span-1">
+            <aside className="lg:col-span-2 col-span-1 min-w-0">
               <motion.div
                 initial={{ opacity: 0, x: -10 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -226,7 +226,7 @@ const App = () => {
 
           {/* Main content */}
           <section
-            className={` col-span-1 space-y-6 ${
+            className={` col-span-1 space-y-6 min-w-0 ${
               sidebarOpen ? "lg:col-span-10 " : "lg:col-span-12"
             }`}
           >

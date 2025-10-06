@@ -94,7 +94,7 @@ export const TableData = ({ data, dark }) => {
       </div>
 
       {/* PAGE SIZE */}
-      <div className="flex items-center justify-between mb-3">
+      <div className="flex items-center justify-between mb-3 gap-5">
         <div className="flex items-center gap-2">
           <label className="text-sm">Rows:</label>
           <select

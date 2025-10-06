@@ -1,7 +1,7 @@
 import { Barchart } from "./components/chart/BarChart";
-import { Linechart } from "./components/chart/Linechart";
-import { Piechart } from "./components/chart/Piechart";
-import { Stackedchart } from "./components/chart/Stackedchart";
+import { Linechart } from "./components/chart/LineChart";
+import { Piechart } from "./components/chart/PieChart";
+import { Stackedchart } from "./components/chart/StackedChart";
 import { GenerateData } from "./data/GenerateData";
 import { TableData } from "./components/table/TableData";
 import {

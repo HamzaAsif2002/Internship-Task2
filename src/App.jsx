@@ -1,23 +1,41 @@
-import { useMemo, useState } from "react";
-import { Charts } from "./components/chart/Charts";
-import { TableData } from "./components/table/TableData";
+import { Barchart } from "./components/chart/BarChart";
+import { Linechart } from "./components/chart/Linechart";
+import { Piechart } from "./components/chart/Piechart";
+import { Stackedchart } from "./components/chart/Stackedchart";
 import { GenerateData } from "./data/GenerateData";
+import { TableData } from "./components/table/TableData";
 import {
-  Search,
+  Aperture,
+  Grid,
+  Bell,
   User,
+  Settings,
+  Sun,
+  Moon,
+  Search,
   Globe,
   Sliders,
   Activity,
   RefreshCw,
-  Funnel,
 } from "lucide-react";
+import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
 
-export default function App() {
-  const data = useMemo(() => GenerateData(), []); // generate once
+const App = () => {
+  const data = GenerateData();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [dark, setDark] = useState(false);
 
-  //get total users.
+  const palette = {
+    primary: "bg-gradient-to-r from-sky-500 to-indigo-600",
+    accent: "bg-gradient-to-r from-emerald-400 to-sky-500",
+    card: "bg-white/70 ",
+    darkCard: "bg-slate-800/70",
+  };
+
+  //Filters.
+
   const totalUsers = Array.isArray(data) ? data.length : 0;
-  console.log(totalUsers);
 
   // filter state
   const [search, setSearch] = useState("");
@@ -77,171 +95,394 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
-      {/* Header */}
-      <header className="flex items-start justify-between mb-4">
-        <div>
-          <h1 className="text-2xl font-extrabold text-slate-800">
-            Analytics Dashboard
-          </h1>
-          <p className="text-sm text-slate-500">
-            Overview — country & user metrics
-          </p>
-        </div>
-      </header>
+    <div
+      className={`min-h-screen ${
+        dark
+          ? "bg-slate-900 text-slate-100"
+          : "bg-gradient-to-b from-slate-50 to-slate-100 text-slate-900"
+      }`}
+    >
+      <div className="max-w-[1400px] mx-auto p-4 lg:p-6">
+        {/* Header */}
+        <header className="flex items-center justify-between gap-4 mb-6">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setSidebarOpen(!sidebarOpen)}
+              className="p-2 rounded-lg hover:bg-slate-200/50 focus:outline-none"
+              aria-label="toggle sidebar"
+            >
+              <Grid className="w-6 h-6" />
+            </button>
 
-      {/* Filters  */}
-      <div className="bg-white p-4 md:p-6 rounded-2xl shadow-sm border border-slate-100 mb-6 max-w-full">
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-3">
-            <Funnel className="w-5 h-5 text-slate-500" />
-            <h3 className="text-sm font-semibold text-slate-700">Filters</h3>
-            <p className="text-xs text-slate-400 hidden sm:inline">
-              — refine results
-            </p>
+            <div className="flex items-center gap-3">
+              <div className={`p-2 rounded-lg text-white ${palette.primary}`}>
+                <Aperture className="w-6 h-6" />
+              </div>
+              <div>
+                <h1 className="text-xl font-bold leading-tight">
+                  Analytics Dashboard
+                </h1>
+              </div>
+            </div>
           </div>
 
           <div className="flex items-center gap-3">
-            <div className="text-sm text-slate-500 hidden sm:block">
-              <span className="font-medium text-slate-700">
-                {filteredData.length}
-              </span>{" "}
-              results
+            <div className="relative hidden sm:block">
+              <div className="flex items-center gap-2 min-w-[220px] flex-1 md:flex-none">
+                <label className="sr-only">Search</label>
+                <div
+                  className={`w-full flex items-center gap-2 rounded-lg px-3 py-2 border transition-colors
+      ${
+        dark
+          ? "bg-slate-800 border-slate-700 focus-within:ring-2 focus-within:ring-blue-500"
+          : "bg-slate-50 border-slate-200 focus-within:ring-2 focus-within:ring-blue-200"
+      }`}
+                >
+                  <Search
+                    className={`w-4 h-4 transition-colors ${
+                      dark ? "text-slate-400" : "text-slate-500"
+                    }`}
+                  />
+                  <input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search name, country, preference..."
+                    aria-label="Search"
+                    className={`w-full bg-transparent outline-none text-sm placeholder:transition-colors
+        ${
+          dark
+            ? "text-slate-100 placeholder:text-slate-500"
+            : "text-slate-700 placeholder:text-slate-400"
+        }`}
+                  />
+                </div>
+              </div>
             </div>
 
             <button
-              onClick={resetFilters}
-              className="inline-flex items-center gap-2 px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 hover:shadow transition"
-              aria-label="Reset filters"
-              title="Reset filters"
+              onClick={() => setDark(!dark)}
+              className="p-2 rounded-lg hover:bg-slate-200/50"
             >
-              <RefreshCw className="w-4 h-4" />
-              Reset
-            </button>
-          </div>
-        </div>
-
-        <div className="flex flex-wrap items-end gap-4">
-          {/* Search (icon inside) */}
-          <div className="flex items-center gap-2 min-w-[220px] flex-1 md:flex-none">
-            <label className="sr-only">Search</label>
-            <div className="w-full flex items-center gap-2 bg-slate-50 border border-slate-100 rounded-lg px-3 py-2 focus-within:ring-2 focus-within:ring-blue-200">
-              <Search className="w-4 h-4 text-slate-400" />
-              <input
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                placeholder="Search name, country, preference..."
-                aria-label="Search"
-                className="w-full bg-transparent outline-none text-sm text-slate-700 placeholder:text-slate-400"
-              />
-              {/* optional clear button (visible when there's text) */}
-              {search && (
-                <button
-                  onClick={() => setSearch("")}
-                  className="ml-1 text-xs text-slate-400 hover:text-slate-600"
-                  aria-label="Clear search"
-                  title="Clear"
-                >
-                  ×
-                </button>
+              {dark ? (
+                <Sun className="w-5 h-5" />
+              ) : (
+                <Moon className="w-5 h-5" />
               )}
+            </button>
+
+            <button className="p-2 rounded-lg hover:bg-slate-200/50 hidden sm:block">
+              <Bell className="w-5 h-5" />
+            </button>
+
+            <div className="items-center gap-2 p-2 rounded-lg hover:bg-slate-200/50 hidden sm:flex">
+              <User className="w-5 h-5" />
+              <span className="hidden sm:inline">Hamza</span>
             </div>
           </div>
+        </header>
 
-          {/* Gender */}
-          <div className="flex flex-col min-w-[140px]">
-            <label className="text-xs font-medium text-slate-500 flex items-center gap-2">
-              <User className="w-4 h-4" />
-              Gender
-            </label>
-            <select
-              value={gender}
-              onChange={(e) => setGender(e.target.value)}
-              className="mt-1 px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-200 outline-none"
-              aria-label="Filter by gender"
-            >
-              {genders.map((g) => (
-                <option key={g} value={g}>
-                  {g}
-                </option>
-              ))}
-            </select>
-          </div>
+        <main className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Sidebar (collapsible) */}
+          {sidebarOpen && (
+            <aside className="lg:col-span-2 col-span-1">
+              <motion.div
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                className={`p-4 rounded-2xl shadow-md ${
+                  dark ? palette.darkCard : palette.card
+                }`}
+              >
+                <nav className="space-y-3 text-sm">
+                  <a className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100/60">
+                    <Grid className="w-5 h-5" />
+                    Dashboard
+                  </a>
+                  <a className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100/60">
+                    <Aperture className="w-5 h-5" />
+                    Visuals
+                  </a>
+                  <a className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100/60">
+                    <Settings className="w-5 h-5" />
+                    Settings
+                  </a>
+                  <a className="flex items-center gap-3 p-2 rounded-lg hover:bg-slate-100/60">
+                    <User className="w-5 h-5" />
+                    Profile
+                  </a>
+                </nav>
 
-          {/* Country */}
-          <div className="flex flex-col min-w-[160px]">
-            <label className="text-xs font-medium text-slate-500 flex items-center gap-2">
-              <Globe className="w-4 h-4" />
-              Country
-            </label>
-            <select
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              className="mt-1 px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-200 outline-none"
-              aria-label="Filter by country"
-            >
-              {countries.map((c) => (
-                <option key={c} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-          </div>
+                <div className="mt-6 text-xs opacity-80">
+                  <div className="font-medium">Palette</div>
+                  <div className="flex items-center gap-2 mt-2">
+                    <div className="w-6 h-6 rounded-full bg-sky-500 shadow-sm" />
+                    <div className="w-6 h-6 rounded-full bg-indigo-500 shadow-sm" />
+                    <div className="w-6 h-6 rounded-full bg-emerald-400 shadow-sm" />
+                    <div className="w-6 h-6 rounded-full bg-amber-400 shadow-sm" />
+                  </div>
+                </div>
+              </motion.div>
+            </aside>
+          )}
 
-          {/* Preference */}
-          <div className="flex flex-col min-w-[140px]">
-            <label className="text-xs font-medium text-slate-500 flex items-center gap-2">
-              <Sliders className="w-4 h-4" />
-              Preference
-            </label>
-            <select
-              value={preference}
-              onChange={(e) => setPreference(e.target.value)}
-              className="mt-1 px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-200 outline-none"
-              aria-label="Filter by preference"
-            >
-              {preferences.map((p) => (
-                <option key={p} value={p}>
-                  {p}
-                </option>
-              ))}
-            </select>
-          </div>
+          {/* Main content */}
+          <section
+            className={` col-span-1 space-y-6 ${
+              sidebarOpen ? "lg:col-span-10 " : "lg:col-span-12"
+            }`}
+          >
+            {/* Filters */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+              {/* Gender */}
+              <div className="flex flex-col min-w-[140px]">
+                <label className="text-xs font-medium  flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  Gender
+                </label>
+                <select
+                  value={gender}
+                  onChange={(e) => setGender(e.target.value)}
+                  className="mt-1 px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-200 outline-none"
+                  aria-label="Filter by gender"
+                >
+                  {genders.map((g) => (
+                    <option
+                      key={g}
+                      value={g}
+                      className={
+                        dark
+                          ? "bg-slate-800 text-slate-200"
+                          : "bg-white text-slate-800"
+                      }
+                    >
+                      {g}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
-          {/* Engagement / Activity */}
-          <div className="flex flex-col min-w-[140px]">
-            <label className="text-xs font-medium text-slate-500 flex items-center gap-2">
-              <Activity className="w-4 h-4" />
-              Engagement
-            </label>
-            <select
-              value={activity}
-              onChange={(e) => setActivity(e.target.value)}
-              className="mt-1 px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-200 outline-none"
-              aria-label="Filter by engagement"
-            >
-              {activities.map((a) => (
-                <option key={a} value={a}>
-                  {a}
-                </option>
+              {/* Country */}
+              <div className="flex flex-col min-w-[160px]">
+                <label className="text-xs font-medium  flex items-center gap-2">
+                  <Globe className="w-4 h-4" />
+                  Country
+                </label>
+                <select
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  className="mt-1 px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-200 outline-none"
+                  aria-label="Filter by country"
+                >
+                  {countries.map((c) => (
+                    <option
+                      key={c}
+                      value={c}
+                      className={
+                        dark
+                          ? "bg-slate-800 text-slate-200"
+                          : "bg-white text-slate-800"
+                      }
+                    >
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Preference */}
+              <div className="flex flex-col min-w-[140px]">
+                <label className="text-xs font-medium  flex items-center gap-2">
+                  <Sliders className="w-4 h-4" />
+                  Preference
+                </label>
+                <select
+                  value={preference}
+                  onChange={(e) => setPreference(e.target.value)}
+                  className="mt-1 px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-200 outline-none"
+                  aria-label="Filter by preference"
+                >
+                  {preferences.map((p) => (
+                    <option
+                      key={p}
+                      value={p}
+                      className={
+                        dark
+                          ? "bg-slate-800 text-slate-200"
+                          : "bg-white text-slate-800"
+                      }
+                    >
+                      {p}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Engagement / Activity */}
+              <div className="flex flex-col min-w-[140px]">
+                <label className="text-xs font-medium  flex items-center gap-2">
+                  <Activity className="w-4 h-4" />
+                  Engagement
+                </label>
+                <select
+                  value={activity}
+                  onChange={(e) => setActivity(e.target.value)}
+                  className="mt-1 px-3 py-2 rounded-lg border border-slate-200 text-sm focus:ring-2 focus:ring-blue-200 outline-none"
+                  aria-label="Filter by engagement"
+                >
+                  {activities.map((a) => (
+                    <option
+                      key={a}
+                      value={a}
+                      className={
+                        dark
+                          ? "bg-slate-800 text-slate-200"
+                          : "bg-white text-slate-800"
+                      }
+                    >
+                      {a}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="text-sm hidden sm:block">
+                    <span className="font-medium ">{filteredData.length}</span>{" "}
+                    results
+                  </div>
+
+                  <button
+                    onClick={resetFilters}
+                    className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all
+    ${
+      dark
+        ? "bg-slate-800 border border-slate-700 text-slate-200 hover:bg-slate-700 hover:border-slate-600 hover:text-white"
+        : "bg-slate-50 border border-slate-200 text-slate-700 hover:bg-slate-100 hover:border-slate-300"
+    }`}
+                    aria-label="Reset filters"
+                    title="Reset filters"
+                  >
+                    <RefreshCw className="w-4 h-4" />
+                    Reset
+                  </button>
+                </div>
+              </div>
+            </div>
+            {/* Top metrics */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+              {[
+                {
+                  title: "Total Users",
+                  value: totalUsers,
+                  change: "+4.2%",
+                },
+                { title: "Active Sessions", value: 3491, change: "+1.1%" },
+                { title: "Countries", value: countries.length, change: "+2" },
+                { title: "Avg. Session", value: "3m 12s", change: "-0.6%" },
+              ].map((m) => (
+                <motion.div
+                  key={m.title}
+                  whileHover={{ y: -4 }}
+                  className={`p-4 rounded-2xl shadow-sm ${
+                    dark ? palette.darkCard : palette.card
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="text-sm opacity-70">{m.title}</div>
+                      <div className="text-2xl font-semibold">{m.value}</div>
+                    </div>
+                    <div
+                      className={`text-sm font-medium ${
+                        m.change.startsWith("+")
+                          ? "text-emerald-500"
+                          : "text-rose-500"
+                      }`}
+                    >
+                      {m.change}
+                    </div>
+                  </div>
+                </motion.div>
               ))}
-            </select>
-          </div>
-        </div>
+            </div>
+
+            {/* Charts grid */}
+            <div className="grid grid-cols-1  lg:grid-cols-3 gap-4">
+              {/* Stacked Chart */}
+              <div
+                className={`col-span-1 lg:col-span-2 p-4 rounded-2xl shadow-md ${
+                  dark ? palette.darkCard : palette.card
+                }`}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-lg font-semibold">Traffic Overview</h3>
+                  <div className="text-sm opacity-70">Last 30 days</div>
+                </div>
+                <div className="w-full h-[350px]">
+                  {" "}
+                  {/* 👈 set chart size */}
+                  <Stackedchart rows={filteredData} />
+                </div>
+              </div>
+
+              {/* Pie Chart */}
+              <div
+                className={`col-span-1 p-4 rounded-2xl shadow-md ${
+                  dark ? palette.darkCard : palette.card
+                }`}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-lg font-semibold">Users by Type</h3>
+                  <div className="text-sm opacity-70">Realtime</div>
+                </div>
+                <div className="w-full h-[300px]">
+                  <Piechart rows={filteredData} />
+                </div>
+              </div>
+
+              {/* Bar Chart */}
+              <div
+                className={`col-span-1 lg:col-span-2 p-4 rounded-2xl shadow-md ${
+                  dark ? palette.darkCard : palette.card
+                }`}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-lg font-semibold">Sessions by Device</h3>
+                  <div className="text-sm opacity-70">Segmented</div>
+                </div>
+                <div className="w-full h-[350px]">
+                  <Barchart rows={filteredData} />
+                </div>
+              </div>
+
+              {/* line Chart */}
+              <div
+                className={`col-span-1 p-4 rounded-2xl shadow-md ${
+                  dark ? palette.darkCard : palette.card
+                }`}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-lg font-semibold">Stacked Metric</h3>
+                  <div className="text-sm opacity-70">Comparison</div>
+                </div>
+                <div className="w-full h-[300px]">
+                  <Linechart rows={filteredData} />{" "}
+                </div>
+              </div>
+            </div>
+
+            {/* Table */}
+            <div
+              className={`p-4 rounded-2xl shadow-md ${
+                dark ? palette.darkCard : palette.card
+              }`}
+            >
+              <TableData data={filteredData} dark={dark} />
+            </div>
+          </section>
+        </main>
       </div>
-
-      {/* Main grid: pass filteredData to both */}
-      <Charts
-        rows={filteredData}
-        totalUsers={totalUsers}
-        countries={countries}
-      />
-      <TableData data={filteredData} />
-
-      {/* Footer */}
-      <footer className="mt-6 text-xs text-slate-400">
-        Updated: Oct 2, 2025
-      </footer>
     </div>
   );
-}
+};
+
+export default App;

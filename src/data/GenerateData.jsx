@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 // Cache variable (so data is generated only once)
 let cachedData = null;
 
-export const GenerateData = (count = 100) => {
+export const GenerateData = (count = 199) => {
   if (!cachedData) {
     const activityLevels = ["Low", "Medium", "High"];
     const preferences = ["Sports", "Music", "Tech", "Travel", "Food", "Movies"];

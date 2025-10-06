@@ -1,16 +1,57 @@
-# React + Vite
+🧭 Dashboard Analytics Project
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, responsive Analytics Dashboard built with React, featuring dark/light mode, data visualization, and interactive filtering.
+This project showcases a dynamic frontend setup using Faker.js, Recharts, and Tailwind CSS — perfect for analyzing mock user data in a clean, UI-rich interface.
 
-Currently, two official plugins are available:
+🚀 Live Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+✅ Dark & Light Mode
+Seamless theme switching for better usability in any environment.
 
-## React Compiler
+✅ Dynamic Charts
+Visualize user insights with multiple chart types powered by Recharts:
 
-The React Compiler is not enabled on this template. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+📊 Bar Chart
 
-## Expanding the ESLint configuration
+📈 Line Chart
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🥧 Pie & Donut Chart
+
+🧩 Stacked Chart
+
+✅ Smart Filtering
+Filter data by:
+
+Gender
+
+Engagement Level
+
+Preference
+
+Country
+
+✅ Search Functionality
+Search by name, country, or preference in real time.
+
+✅ Pagination & Sorting
+Easily browse through large data tables with sorting on each column.
+
+✅ Summary Cards
+Instant overview of total users, countries, and activity sessions.
+
+✅ Responsive Design
+Optimized layout that adapts to all screen sizes — from mobile to desktop.
+
+## 🖼️ Screenshot
+
+![Dashboard Screenshot](/public/screenshort.png)
+
+🛠️ Tech Stack
+Tool / Library Purpose
+⚛️ React.js Frontend Framework
+🎨 Tailwind CSS Styling & Dark Mode
+📊 Recharts Data Visualization
+🧠 Faker.js Generating Mock Data
+⚡ Framer Motion Animations & Hover Effects
+🧰 useState / useMemo State Management & Filtering
+🌙 Dark Mode Logic Theme Persistence

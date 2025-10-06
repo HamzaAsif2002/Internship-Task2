@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 
 const pageSizeOptions = [10, 25, 50];
 
-export const TableData = ({ data }) => {
+export const TableData = ({ data, dark }) => {
   // defensive default
   const SAMPLE_DATA = Array.isArray(data) ? data : [];
 
@@ -83,10 +83,14 @@ export const TableData = ({ data }) => {
   ];
 
   return (
-    <div className="p-4 max-w-7xl mx-auto my-3 shadow rounded-2xl">
+    <div className="p-4 max-w-7xl my-5 shadow-2xl rounded-2xl">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-semibold">Users</h2>
-        <div className="text-sm text-gray-600">Total rows: {total}</div>
+        <div
+          className={`text-sm   ${dark ? "text-white/80" : "text-gray-600"}`}
+        >
+          Total rows: {total}
+        </div>
       </div>
 
       {/* PAGE SIZE */}
@@ -109,7 +113,9 @@ export const TableData = ({ data }) => {
           </select>
         </div>
 
-        <div className="text-sm text-gray-600">
+        <div
+          className={`text-sm   ${dark ? "text-white/80" : "text-gray-600"}`}
+        >
           Showing {total === 0 ? 0 : (page - 1) * pageSize + 1} to{" "}
           {Math.min(page * pageSize, total)} of {total} entries
         </div>
@@ -118,7 +124,11 @@ export const TableData = ({ data }) => {
       {/* TABLE */}
       <div className="overflow-x-auto border rounded">
         <table className="min-w-full text-sm">
-          <thead className="bg-gray-50">
+          <thead
+            className={`transition-colors ${
+              dark ? "bg-slate-800 text-slate-200" : "bg-gray-50 text-slate-800"
+            }`}
+          >
             <tr>
               {columns.map((col) => (
                 <th
@@ -137,7 +147,14 @@ export const TableData = ({ data }) => {
 
           <tbody>
             {paged.map((row) => (
-              <tr key={row.id} className="odd:bg-white even:bg-gray-50">
+              <tr
+                key={row.id}
+                className={`transition-colors ${
+                  dark
+                    ? "odd:bg-slate-800 even:bg-slate-700 hover:bg-slate-600 text-slate-200"
+                    : "odd:bg-white even:bg-gray-50 hover:bg-gray-100 text-slate-800"
+                }`}
+              >
                 <td className="px-3 py-2">{row.name}</td>
                 <td className="px-3 py-2">{row.age}</td>
                 <td className="px-3 py-2">{row.gender}</td>
@@ -150,7 +167,12 @@ export const TableData = ({ data }) => {
 
             {paged.length === 0 && (
               <tr>
-                <td colSpan={7} className="text-center px-3 py-6 text-gray-500">
+                <td
+                  colSpan={7}
+                  className={`text-center px-3 py-6 ${
+                    dark ? "text-slate-400" : "text-gray-500"
+                  }`}
+                >
                   No results found.
                 </td>
               </tr>
@@ -165,14 +187,14 @@ export const TableData = ({ data }) => {
           <button
             onClick={() => setPage(1)}
             disabled={page === 1}
-            className="px-2 py-1 border rounded disabled:opacity-50"
+            className="px-1 sm:px-2 py-1 border rounded disabled:opacity-50"
           >
             « First
           </button>
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page === 1}
-            className="px-2 py-1 border rounded disabled:opacity-50"
+            className="px-1 sm:px-2 py-1 border rounded disabled:opacity-50"
           >
             ‹ Prev
           </button>
@@ -184,20 +206,22 @@ export const TableData = ({ data }) => {
           <button
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
             disabled={page === totalPages}
-            className="px-2 py-1 border rounded disabled:opacity-50"
+            className="px-1 sm:px-2 py-1 border rounded disabled:opacity-50"
           >
             Next ›
           </button>
           <button
             onClick={() => setPage(totalPages)}
             disabled={page === totalPages}
-            className="px-2 py-1 border rounded disabled:opacity-50"
+            className="px-1 sm:px-2 py-1 border rounded disabled:opacity-50"
           >
             Last »
           </button>
         </div>
 
-        <div className="text-sm text-gray-600">
+        <div
+          className={`text-sm   ${dark ? "text-white/80" : "text-gray-600"}`}
+        >
           Showing {total === 0 ? 0 : (page - 1) * pageSize + 1} to{" "}
           {Math.min(page * pageSize, total)} of {total} entries
         </div>

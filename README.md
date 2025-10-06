@@ -6,52 +6,60 @@ This project showcases a dynamic frontend setup using Faker.js, Recharts, and Ta
 🚀 Live Features
 
 ✅ Dark & Light Mode
-Seamless theme switching for better usability in any environment.
+    Seamless theme switching for better usability in any environment.
 
 ✅ Dynamic Charts
-Visualize user insights with multiple chart types powered by Recharts:
+   Visualize user insights with multiple chart types powered by Recharts:
 
-📊 Bar Chart
+   📊 Bar Chart
 
-📈 Line Chart
+   📈 Line Chart
 
-🥧 Pie & Donut Chart
+   🥧 Pie & Donut Chart
 
-🧩 Stacked Chart
+   🧩 Stacked Chart
 
 ✅ Smart Filtering
-Filter data by:
+   Filter data by:
 
-Gender
+   Gender
 
-Engagement Level
+   Engagement Level
 
-Preference
+   Preference
 
-Country
+   Country
 
 ✅ Search Functionality
-Search by name, country, or preference in real time.
+   Search by name, country, or preference in real time.
 
 ✅ Pagination & Sorting
-Easily browse through large data tables with sorting on each column.
+   Easily browse through large data tables with sorting on each column.
 
 ✅ Summary Cards
-Instant overview of total users, countries, and activity sessions.
+   Instant overview of total users, countries, and activity sessions.
 
 ✅ Responsive Design
-Optimized layout that adapts to all screen sizes — from mobile to desktop.
+   Optimized layout that adapts to all screen sizes — from mobile to desktop.
 
 ## 🖼️ Screenshot
 
 ![Dashboard Screenshot](/public/screenshort.png)
 
 🛠️ Tech Stack
+
 Tool / Library Purpose
+
 ⚛️ React.js Frontend Framework
+
 🎨 Tailwind CSS Styling & Dark Mode
+
 📊 Recharts Data Visualization
+
 🧠 Faker.js Generating Mock Data
+
 ⚡ Framer Motion Animations & Hover Effects
+
 🧰 useState / useMemo State Management & Filtering
+
 🌙 Dark Mode Logic Theme Persistence

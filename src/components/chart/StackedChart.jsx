@@ -9,7 +9,7 @@ import {
   Legend,
 } from "recharts";
 
-export const Stackedchart = ({ rows = [] }) => {
+export const Stackedchart = ({ rows = [], dark }) => {
   // guard
   const safeRows = Array.isArray(rows) ? rows : [];
 
@@ -62,15 +62,23 @@ export const Stackedchart = ({ rows = [] }) => {
           dataKey="country"
           angle={-30}
           textAnchor="end"
-          tick={{ fontSize: 10 }}
+          tick={{ fontSize: 10, fill: dark ? "#d1d5db" : "#374151" }}
           tickFormatter={(name) =>
             name.length > 10 ? name.slice(0, 15) + "..." : name
           }
         />
-        <YAxis domain={[0, yMax]} allowDecimals={false} />
+        <YAxis
+          domain={[0, yMax]}
+          allowDecimals={false}
+          tick={{ fill: dark ? "#d1d5db" : "#374151" }}
+        />
         <Tooltip
           formatter={(value, name) => [value, name]}
           // show combined total in tooltip payload if desired
+          contentStyle={{
+            backgroundColor: dark ? "#1f2937" : "#ffffff",
+            border: "none",
+          }}
         />
         <Legend verticalAlign="top" height={36} />
 

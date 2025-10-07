@@ -420,7 +420,7 @@ const App = () => {
                 <div className="w-full h-[350px]">
                   {" "}
                   {/* 👈 set chart size */}
-                  <Stackedchart rows={filteredData} />
+                  <Stackedchart rows={filteredData} dark={dark} />
                 </div>
               </div>
 
@@ -450,7 +450,7 @@ const App = () => {
                   <div className="text-sm opacity-70">Segmented</div>
                 </div>
                 <div className="w-full h-[350px]">
-                  <Barchart rows={filteredData} />
+                  <Barchart rows={filteredData} dark={dark} />
                 </div>
               </div>
 
@@ -465,7 +465,7 @@ const App = () => {
                   <div className="text-sm opacity-70">Comparison</div>
                 </div>
                 <div className="w-full h-[300px]">
-                  <Linechart rows={filteredData} />{" "}
+                  <Linechart rows={filteredData} dark={dark} />
                 </div>
               </div>
             </div>

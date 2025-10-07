@@ -8,7 +8,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export const Linechart = ({ rows }) => {
+export const Linechart = ({ rows, dark }) => {
   const countryMap = {};
   rows.forEach((r) => {
     const c = r.country || "Unknown";
@@ -27,18 +27,32 @@ export const Linechart = ({ rows }) => {
         data={topCountries}
         margin={{ top: 20, right: 5, left: 5, bottom: 20 }}
       >
-        <CartesianGrid stroke="#e5e7eb" vertical={false} strokeDasharray="0" />
+        <CartesianGrid
+          stroke={dark ? "#374151" : "#e5e7eb"}
+          vertical={false}
+          strokeDasharray="0"
+        />
         <XAxis
           dataKey="country"
           angle={-30}
           textAnchor="end"
-          tick={{ fontSize: 10 }}
+          tick={{ fontSize: 10, fill: dark ? "#d1d5db" : "#374151" }}
           tickFormatter={(name) =>
             name.length > 15 ? name.slice(0, 15) + "..." : name
           }
         />
-        <YAxis domain={[0, (dataMax) => dataMax + 2]} allowDecimals={false} />
-        <Tooltip />
+        <YAxis
+          domain={[0, (dataMax) => dataMax + 2]}
+          allowDecimals={false}
+          tick={{ fill: dark ? "#d1d5db" : "#374151" }}
+        />
+        <Tooltip
+          contentStyle={{
+            backgroundColor: dark ? "#1f2937" : "#ffffff",
+            border: "none",
+            color: dark ? "#f9fafb" : "#111827",
+          }}
+        />
         <Line
           type="monotone"
           dataKey="count"
